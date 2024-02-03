@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .content-auto {
+          content-visibility: auto;
+        }
+      }
+    </style>
+
+    <meta charset="UTF-8" />
+    <title>Get GoogleDrive Embeded URL</title>
+  </head>
+
+  <body>
+    <div
+      class="flex justify-center min-h-screen items-center text-xl bg-[#F4F5F7]"
+    >
+      <div class="gap-y-2 text-center">
+        <label for="text" class="font-bold text-2xl text-[#172b4d]"
+          >Get GoogleDrive Embeded URL</label
+        >
+        <input
+          class="block mt-4 w-full p-2 border border-gray-400 rounded bg-slate-300 text-sm"
+          type="text"
+          id="text-input"
+          placeholder="Enter GoogleDrive Public URL"
+        />
+        <div>
+          <ol class="list-disc list-inside text-start text-sm">
+            <li class="py-1">
+              Make sure the file is already allowed to access by public
+            </li>
+            <li class="py-1">Open your google drive</li>
+            <li class="py-1">Right Click the Files</li>
+            <li class="py-1">
+              <span class="font-bold">+Share</span> and
+              <span class="font-bold">Copy Link</span>
+            </li>
+          </ol>
+        </div>
+        <button
+          onclick="generateEmbededUrl() "
+          class="mt-4 px-4 py-2 w-full bg-blue-500 text-white rounded"
+        >
+          Generate Embeded URL
+        </button>
+
+        <input
+          type="text"
+          id="output"
+          class="block mt-4 w-full p-2 border border-gray-400 rounded bg-slate-300 text-sm"
+          readonly
+          style="display: none"
+        />
+        <p id="copyInfo" class="text-sm text-gray-500 mt-2" style="display: none;">URL copied to clipboard!</p>
+      </div>
+      </div>
+    </div>
+
+    <script>
+      function generateEmbededUrl() {
+        var textInput = document.getElementById("text-input").value;
+        const prefix = "https://lh3.googleusercontent.com/d/";
+        if (textInput == "") {
+          alert("Please enter text or URL");
+          return;
+        }
+
+        const fileId = textInput.match(/\/d\/([^/]+)/)[1];
+        const output = prefix + fileId;
+
+        const outputLocation = document.getElementById("output");
+        outputLocation.value = output;
+        outputLocation.style.display = "block";
+
+        outputLocation.select();
+        document.execCommand("copy");
+
+        const copyInfo = document.getElementById("copyInfo");
+        copyInfo.style.display = "block";
+
+        setTimeout(function() {
+          copyInfo.style.display = "none";
+        }, 3000);
+
+      }
+    </script>
+  </body>
+</html>
